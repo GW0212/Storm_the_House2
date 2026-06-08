@@ -129,8 +129,7 @@
     const time = new Date().toLocaleTimeString();
     const line = `[${time}] ${label}: ${value}`;
     diagLines.push(line);
-    diagnostics.innerHTML = diagLines.map(x => escapeHtml(x)).join('
-');
+    diagnostics.innerHTML = diagLines.map(x => escapeHtml(x)).join('\n');
     console.log('[launcher]', line);
   }
   function clearDiag() { diagLines = []; diagnostics.textContent = ''; }
@@ -220,8 +219,7 @@
     } catch (e) {
       setStatus('error', '실행 실패');
       addDiag('ERROR', String(e), 'err');
-      makeError('ERR_RUFFLE_RUN_FAILED', diagLines.join('
-'));
+      makeError('ERR_RUFFLE_RUN_FAILED', diagLines.join('\n'));
     }
   }
   async function runUrlMode() {
@@ -250,8 +248,7 @@
     } catch (e) {
       setStatus('error', '파일 실행 실패');
       addDiag('ERROR', String(e), 'err');
-      makeError('ERR_SWF_URL_FAILED', diagLines.join('
-'));
+      makeError('ERR_SWF_URL_FAILED', diagLines.join('\n'));
     }
   }
   function runFile(file) {
@@ -271,8 +268,7 @@
       } catch (e) {
         setStatus('error', '선택 파일 실행 실패');
         addDiag('ERROR', String(e), 'err');
-        makeError('ERR_SELECTED_SWF_FAILED', diagLines.join('
-'));
+        makeError('ERR_SELECTED_SWF_FAILED', diagLines.join('\n'));
       }
     };
     reader.readAsArrayBuffer(file);
@@ -286,8 +282,7 @@
     else if (target && target.requestFullscreen) target.requestFullscreen();
   });
   btnCopyDiag.addEventListener('click', async () => {
-    const text = diagLines.join('
-');
+    const text = diagLines.join('\n');
     try { await navigator.clipboard.writeText(text); addDiag('Copy', 'diagnostics copied', 'ok'); } catch (e) { addDiag('Copy failed', String(e), 'warn'); }
   });
   fileInput.addEventListener('change', e => runFile(e.target.files && e.target.files[0]));
